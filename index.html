@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Abroad v3 - Buy and sell without the risk</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231D4FA3'/%3E%3Cpath fill='white' transform='rotate(45 12 12) scale(.7) translate(5 5)' d='M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=Cairo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F8FB;--surface:#fff;--ink:#0B2545;--mute:#5B6B7F;--line:#DCE4EC;--blue:#1D4FA3;--blue-d:#163D80;--tint:#E8F0FC;--red:#D7372F;--ok:#1E8E5A;--gold:#9A6A12;
+--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"DM Sans","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.4,0,.2,1)}
+*{box-sizing:border-box}html{-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.5}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #7FA8E8;outline-offset:2px}
+.ic{width:22px;height:22px;flex:none}
+/* header + nav */
+header{position:sticky;top:0;z-index:10;background:rgba(245,248,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.bar{max-width:1280px;margin:auto;padding:10px 18px;display:flex;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--blue);font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.04em;user-select:none}
+.logo svg{width:44px;height:34px;overflow:visible}
+.logo .trail{fill:none;stroke:var(--blue);stroke-width:2;stroke-dasharray:1 5;stroke-linecap:round;opacity:.55}
+.logo .pl{color:var(--red)}
+nav{display:flex;gap:4px;flex:1}
+nav button{display:flex;align-items:center;gap:8px;background:none;border:0;padding:9px 14px;border-radius:99px;color:var(--mute);font-weight:700;cursor:pointer;transition:background .2s,color .2s}
+nav button:hover{background:#E9EFF6}nav button.on{background:var(--tint);color:var(--blue)}
+.who{display:flex;align-items:center;gap:10px;margin-inline-start:auto;font-weight:700;font-size:14px}
+.av{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;font-weight:800;font-family:var(--display)}
+.t0,.a0{background:#D6E4FA;color:#1D4FA3}.t1,.a1{background:#F3E7CF;color:#8A5A12}.t2,.a2{background:#DDF1E6;color:#1E6B46}
+.t3,.a3{background:#F9DDDA;color:#A4281F}.t4,.a4{background:#D5EEF1;color:#0F6672}.t5,.a5{background:#E6E0F5;color:#4B3A8F}
+.pro{background:#FFF1CC;color:var(--gold);font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;margin-inline-start:6px}
+main{max-width:1040px;margin:auto;padding:26px 18px 110px}
+#app.enter{animation:fade .2s var(--ease)}@keyframes fade{from{opacity:0}}
+h1{font-family:var(--display);font-size:clamp(28px,5vw,40px);line-height:1.08;letter-spacing:-.035em;margin:0 0 8px}
+h2{font-family:var(--display);font-size:21px;letter-spacing:-.02em;margin:34px 0 12px}
+.sub{color:var(--mute);margin:0 0 20px;max-width:56ch}.small{font-size:13px;color:var(--mute)}
+/* buttons + inputs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;border:0;padding:12px 22px;border-radius:99px;font-weight:700;cursor:pointer;transition:background .2s,transform .12s;position:relative}
+.btn:hover{background:var(--blue-d)}.btn:active{transform:scale(.97)}.btn.full{width:100%}
+.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.alt:hover{background:#EEF3F8}.btn.red{background:var(--red)}
+.btn{white-space:nowrap}.btn.sm{padding:9px 16px;font-size:14px}.btn:disabled{opacity:.6;cursor:default}
+.btn.busy{color:transparent}.btn.busy::after{content:"";position:absolute;width:18px;height:18px;border:2.5px solid #fff;border-right-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+.btn.alt.busy::after{border-color:var(--blue);border-right-color:transparent}@keyframes spin{to{transform:rotate(1turn)}}
+input,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;margin:5px 0 14px;transition:border .2s,box-shadow .2s}
+input:focus,select:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px var(--tint)}
+label{font-size:13px;font-weight:700;color:var(--mute)}
+/* shop */
+.search{position:relative;margin-bottom:18px}.search .ic{position:absolute;inset-inline-start:14px;top:17px;color:var(--mute);width:20px;height:20px}.search input{padding-inline-start:44px;margin:0;border-radius:99px;height:50px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s var(--ease),border-color .2s}
+.item:hover{transform:translateY(-3px);border-color:#B9C9DC}
+.tile{height:132px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:64px;letter-spacing:-.05em}
+.item .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:2px;flex:1}.item h3{margin:0;font-size:16px}
+.price{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;margin-top:8px}
+.seller{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute)}.seller .av{width:22px;height:22px;font-size:11px}
+.item .btn{margin-top:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px}
+.row{display:flex;justify-content:space-between;gap:12px;margin:7px 0;font-size:15px}.row.t{font-weight:800;border-top:1px solid var(--line);padding-top:11px;font-family:var(--display);font-size:18px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.trip{display:flex;flex-direction:column;gap:2px}.trip .route{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em}
+.trip .route .ic{color:var(--red);transform:rotate(90deg);width:20px}
+.kg{font-family:var(--display);font-weight:800;font-size:26px;margin-top:10px;letter-spacing:-.03em}
+.bar2{height:8px;border-radius:9px;background:#E6ECF3;overflow:hidden;margin:6px 0 12px}.bar2 i{display:block;height:100%;background:var(--blue);border-radius:9px;transition:width .8s var(--ease)}
+.empty{text-align:center;color:var(--mute);padding:48px 12px}.empty b{display:block;color:var(--ink);font-family:var(--display);font-size:19px;margin-bottom:4px}.empty .btn{margin-top:14px}
+/* welcome */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:30px 0}
+.hero .card{max-width:400px;margin-top:22px;box-shadow:0 18px 40px -22px rgba(29,79,163,.45)}
+@media(max-width:820px){.hero{grid-template-columns:1fr;gap:10px}}
+/* ticket (order) */
+.ticket{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px 20px 18px;margin-bottom:16px;box-shadow:0 14px 30px -24px rgba(29,79,163,.55)}
+.ticket .head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.ticket h3{margin:0;font-family:var(--display);font-size:19px;letter-spacing:-.02em}
+.pill{padding:4px 11px;border-radius:99px;font-size:12px;font-weight:700;background:#EEF2F6;color:var(--mute);white-space:nowrap}
+.pill.FUNDED,.pill.SHIPPED{background:var(--tint);color:var(--blue)}.pill.RELEASED{background:#DDF3E7;color:var(--ok)}.pill.DISPUTED,.pill.REFUNDED{background:#FCE3E1;color:var(--red)}
+.track{position:relative;height:30px;margin:26px 14px 30px}
+.rail{position:absolute;top:13px;left:0;right:0;height:0;border-top:3px dotted #C3D0DE}
+.rail i{position:absolute;left:0;top:-3px;height:3px;background:var(--blue);border-radius:3px;width:0;transition:width 1.1s var(--ease)}
+.stop{position:absolute;top:8px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#fff;border:3px solid #C3D0DE;transition:all .4s .3s}
+.stop.on{border-color:var(--blue);background:var(--blue)}
+.jet{position:absolute;top:0;left:0;width:28px;height:28px;margin-left:-14px;color:var(--red);transform:rotate(90deg);transition:left 1.1s var(--ease);filter:drop-shadow(0 3px 2px rgba(215,55,47,.25))}
+.lbls{position:absolute;top:30px;left:-14px;right:-14px;display:flex;justify-content:space-between;font-size:12px;color:var(--mute)}.lbls .on{color:var(--ink);font-weight:700}
+.perf{position:relative;border-top:2px dashed var(--line);margin:4px -20px 16px}
+.perf::before,.perf::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.perf::before{left:-11px;clip-path:inset(0 0 0 50%)}.perf::after{right:-11px;clip-path:inset(0 50% 0 0)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.amount{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.03em;line-height:1}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.acts input{margin:0;width:170px;border-radius:99px}
+.code{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--tint);border-radius:16px;padding:12px 16px;margin:0 0 16px}
+.code b{font-family:var(--display);font-size:30px;letter-spacing:.22em;color:var(--blue)}
+.stars{display:flex;gap:2px}.stars button{background:none;border:0;cursor:pointer;color:#CBD5E0;padding:2px;transition:color .15s,transform .15s}.stars button:hover,.stars button:hover~button{color:#CBD5E0}
+.stars:hover button{color:#F2A900}.stars button:hover~button{color:#CBD5E0!important}.stars button:hover{transform:scale(1.15)}.stars .ic{width:28px;height:28px;fill:currentColor}
+.note{background:#FCE9E7;color:#8F2119;border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:14px}
+/* modal + toast */
+#overlay{position:fixed;inset:0;background:rgba(11,37,69,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:30;animation:fade .2s}
+#modal{background:#fff;border-radius:24px;padding:24px;max-width:440px;width:100%;max-height:90vh;overflow:auto;animation:pop .28s var(--ease)}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}}
+#modal h3{font-family:var(--display);font-size:22px;letter-spacing:-.02em;margin:0 0 8px}
+@media(max-width:600px){#overlay{align-items:flex-end;padding:0}#modal{border-radius:26px 26px 0 0;animation:sheet .3s var(--ease);padding-bottom:calc(24px + env(safe-area-inset-bottom))}@keyframes sheet{from{transform:translateY(100%)}}}
+#toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:all .3s var(--ease);z-index:40;max-width:92%;font-weight:500;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.err{background:var(--red)}
+/* phone: bottom tab bar */
+@media(max-width:860px){
+ header{backdrop-filter:none;background:var(--bg)}
+ nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);justify-content:space-around;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:12}
+ nav button{flex-direction:column;gap:2px;font-size:11px;padding:6px 10px;border-radius:14px}.who span.nm{display:none}
+ #toast{bottom:96px}}
+.seg{display:flex;background:#E6ECF3;border-radius:99px;padding:3px}.seg button{border:0;background:none;padding:6px 14px;border-radius:99px;font-weight:700;font-size:13px;color:var(--mute);cursor:pointer;transition:all .25s var(--ease)}.seg button.on{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(11,37,69,.15)}
+.pick{max-width:860px;margin:30px auto 0}.pick h1{max-width:20ch}.pickgrid{gap:18px;margin-top:8px}
+.role{text-align:start;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:26px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
+.role:hover{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 20px 36px -26px rgba(29,79,163,.6)}.role b{font-family:var(--display);font-size:24px;letter-spacing:-.03em}.role span{color:var(--mute)}
+.role .big{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin-bottom:10px}.role .big .ic{width:28px;height:28px}
+.role.buy .big{background:var(--tint);color:var(--blue)}.role.sell .big{background:#DDF1E6;color:#1E6B46}.role i{font-style:normal;font-weight:700;color:var(--blue);margin-top:12px}.role.sell i{color:#1E6B46}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:6px}.stat b{display:block;font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.03em;margin-top:2px}
+@media(max-width:860px){.lo span{display:none}.lo{padding:8px 9px}#menubtn{padding:8px 9px;gap:4px}.bar{gap:6px;padding:10px 10px;flex-wrap:wrap;row-gap:6px}.who{justify-content:flex-end}.logo{font-size:19px;gap:0}.logo svg{width:30px}.seg button{padding:5px 8px;font-size:12px}.who .btn{font-size:12px}.who{flex:none}.stats{grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:14px 12px}.stat b{font-size:19px}.stat .small{font-size:12px}.who .av{display:none}.who{gap:6px}.who .btn{padding:7px 12px}}
+html[lang=ar]{--display:"Cairo","Segoe UI",Tahoma,sans-serif;--body:"Cairo","Segoe UI",Tahoma,sans-serif}html[lang=ar] *{letter-spacing:0!important}
+.logo,.track,.stars{direction:ltr}[dir=rtl] .trip .route .ic{transform:rotate(-90deg)}
+.lo{gap:6px}.lo .ic{width:18px;height:18px}[dir=rtl] .lo .ic{transform:scaleX(-1)}
+.menu{position:relative}#menu{display:none;position:absolute;inset-inline-end:0;top:46px;min-width:190px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px;z-index:50;box-shadow:0 18px 36px -18px rgba(11,37,69,.45);animation:pop .2s var(--ease)}
+#menu button{display:block;width:100%;text-align:start;background:none;border:0;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:500}#menu button:hover{background:#EEF3F8}#menu button.cur{font-weight:800;color:var(--blue);background:var(--tint)}#menu hr{border:0;border-top:1px solid var(--line);margin:6px 4px}
+.tools{display:flex;gap:8px;align-items:center}
+@media(max-width:860px){.tools{margin-inline-start:auto}.who{order:3;flex:1 1 100%;margin:0}.who:not(.has){display:none}.who .seg{flex:1}.who .seg button{flex:1;padding:7px 10px;font-size:13px}.who .av{display:none}}
+nav button{white-space:nowrap}nav{min-width:0}
+@media(min-width:861px){.lo span{display:none}.lo{padding:9px 11px}.who .av{display:none}nav button{padding:9px 10px;gap:6px}.bar{gap:10px}}
+@media(min-width:861px) and (max-width:1100px){nav button:not(.on) span{display:none}}
+@media(min-width:861px) and (max-width:900px){#lcode{display:none}.logo{font-size:21px}.seg button{padding:5px 8px;font-size:12px}nav button{padding:9px}#menubtn{padding:9px 11px}}
+@media(min-width:861px){nav.many button:not(.on) span{display:none}}
+[hidden]{display:none!important}
+.ph{width:100%;height:132px;object-fit:cover;display:block}.ph.sm{width:56px;height:56px;border-radius:14px;flex:none}
+.photo{display:grid;place-items:center;height:150px;border:2px dashed #C3D0DE;border-radius:16px;margin:5px 0 14px;cursor:pointer;overflow:hidden;color:var(--mute);font-weight:700;transition:border-color .2s,background .2s}
+.photo:hover{border-color:var(--blue);background:var(--tint)}.photo img{width:100%;height:100%;object-fit:cover}.photo span{display:flex;gap:8px;align-items:center}
+#modal.wide{max-width:580px}
+.itm{border:1px solid var(--line);border-radius:18px;padding:14px 14px 4px;margin-bottom:12px;background:#FBFCFE}.itmh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.grid3{display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:10px}.conv{margin:-6px 0 10px;min-height:18px;font-weight:700;color:var(--blue)}
+.btn.link{background:none;color:var(--red);padding:2px 6px;font-size:13px}.btn.link:hover{background:#FCE9E7}
+details.items{margin:10px 0 0;background:#F5F8FB;border-radius:14px;padding:10px 14px}details.items summary{cursor:pointer;font-weight:700;color:var(--blue)}
+.li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);margin-top:8px;font-size:14px}.li a{color:var(--blue);font-weight:700;margin-inline-start:8px}
+.head .lead{display:flex;gap:12px;align-items:flex-start}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <symbol id="plane" viewBox="0 0 24 24"><path fill="currentColor" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></symbol>
+ <symbol id="bag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+ <symbol id="tag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8zM7 7h.01"/></symbol>
+ <symbol id="receipt" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16l-3-2-2.5 2L12 18l-2.5 2L7 18l-3 2zM8 9h8M8 13h5"/></symbol>
+ <symbol id="shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+ <symbol id="search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></symbol>
+ <symbol id="chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+ <symbol id="globe" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></symbol>
+ <symbol id="logout" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+ <symbol id="camera" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></symbol>
+ <symbol id="star" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+</defs></svg>
+<header><div class="bar">
+  <div class="logo" onclick="go('shop')" aria-label="Abroad home">
+    <svg viewBox="0 0 44 34" aria-hidden="true"><path class="trail" d="M1 31 C 9 31, 16 22, 25 12"/><g class="pl" transform="translate(21 -1) rotate(38 11 11)"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#plane"/></svg></g></svg>abroad
+  </div>
+  <nav id="nav"></nav><div class="who" id="who"></div>
+  <div class="tools"><span id="lo"></span><div class="menu"><button class="btn alt sm" id="menubtn" onclick="toggleMenu(event)" aria-label="Language and account"><svg class="ic" style="width:18px;height:18px"><use href="#globe"/></svg><span id="lcode">EN</span></button><div id="menu"></div></div></div>
+</div></header>
+<main><div id="app"></div></main>
+<div id="overlay" onclick="if(event.target===this)closeModal()"><div id="modal" role="dialog" aria-modal="true"></div></div>
+<div id="toast" role="status"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+/* ======================= TRANSLATIONS =======================
+   English text is the key. Each entry lists [French, Spanish, Arabic].
+   To add a language: add a code to LANGS and one more item to every array. */
+const LANGS = {en:['English','EN'], fr:['Français','FR'], es:['Español','ES'], ar:['العربية','ع']};
+const IDX = {fr:0, es:1, ar:2};
+const L = {
+"Shop":["Boutique","Tienda","المتجر"],"From abroad":["De l'étranger","Del extranjero","من الخارج"],"My orders":["Mes commandes","Mis pedidos","طلباتي"],
+"Dashboard":["Tableau de bord","Panel","لوحة التحكم"],"Products":["Produits","Productos","المنتجات"],"My trips":["Mes voyages","Mis viajes","رحلاتي"],
+"Sales":["Ventes","Ventas","المبيعات"],"Admin":["Admin","Admin","الإدارة"],"Language":["Langue","Idioma","اللغة"],"Log out":["Se déconnecter","Cerrar sesión","تسجيل الخروج"],
+"Buyer":["Acheteur","Comprador","مشترٍ"],"Seller":["Vendeur","Vendedor","بائع"],"TND":["TND","TND","د.ت"],
+"Buy and sell in Tunisia without the risk.":["Achetez et vendez en Tunisie sans risque.","Compra y vende en Túnez sin riesgos.","اشترِ وبِع في تونس بلا مخاطر."],
+"Your payment stays locked until your order arrives. Sellers always get paid. Shop from abroad through travelers heading home.":["Votre paiement reste bloqué jusqu'à la livraison. Les vendeurs sont toujours payés. Commandez de l'étranger grâce aux voyageurs qui rentrent au pays.","Tu pago queda bloqueado hasta que llegue tu pedido. Los vendedores siempre cobran. Compra del extranjero con viajeros que vuelven a casa.","يبقى دفعك محجوزاً حتى يصل طلبك. البائعون يحصلون على أموالهم دائماً. تسوّق من الخارج عبر مسافرين عائدين إلى تونس."],
+"Your name":["Votre nom","Tu nombre","اسمك"],"e.g. Sara Ben Ali":["ex. Sara Ben Ali","p. ej. Sara Ben Ali","مثال: سارة بن علي"],"Start shopping":["Commencer","Empezar","ابدأ التسوق"],
+"Paris to Tunis · carried by Amine":["Paris vers Tunis · transporté par Amine","París a Túnez · lo lleva Amine","من باريس إلى تونس · ينقله أمين"],
+"On its way":["En route","En camino","في الطريق"],"Held in escrow":["Bloqué en séquestre","En custodia","محجوز في الضمان"],
+"Released when you share your code":["Libéré quand vous donnez votre code","Se libera al compartir tu código","يُحرَّر عند مشاركة الرمز"],
+"Ordered":["Commandé","Pedido","تم الطلب"],"Paid":["Payé","Pagado","مدفوع"],"Delivered":["Livré","Entregado","تم التسليم"],
+"Hi {n}, what brings you to Abroad today?":["Salut {n}, que venez-vous faire sur Abroad ?","Hola {n}, ¿qué te trae hoy a Abroad?","مرحباً {n}، ماذا تريد أن تفعل اليوم في Abroad؟"],
+"Pick one to start. You can switch any time from the top bar.":["Choisissez pour commencer. Vous pouvez changer à tout moment depuis la barre du haut.","Elige para empezar. Puedes cambiar cuando quieras desde la barra superior.","اختر للبدء. يمكنك التبديل في أي وقت من الشريط العلوي."],
+"I want to buy":["Je veux acheter","Quiero comprar","أريد أن أشتري"],
+"Shop products from Tunisian sellers, or order from Shein, Amazon and more through travelers. Your money stays safe until it arrives.":["Achetez auprès de vendeurs tunisiens, ou commandez sur Shein, Amazon et plus via des voyageurs. Votre argent reste protégé jusqu'à la livraison.","Compra a vendedores tunecinos o pide de Shein, Amazon y más con viajeros. Tu dinero está seguro hasta que llegue.","تسوّق من بائعين تونسيين، أو اطلب من شي إن وأمازون وغيرها عبر المسافرين. أموالك محمية حتى يصل الطلب."],
+"Continue as a buyer":["Continuer en tant qu'acheteur","Continuar como comprador","المتابعة كمشترٍ"],"I want to sell":["Je veux vendre","Quiero vender","أريد أن أبيع"],
+"List your products or carry orders in your luggage. Customers pay first, so you get paid for every delivery.":["Publiez vos produits ou transportez des commandes dans vos bagages. Les clients paient d'abord, vous êtes payé à chaque livraison.","Publica tus productos o lleva pedidos en tu equipaje. Los clientes pagan primero, así cobras cada entrega.","اعرض منتجاتك أو انقل الطلبات في أمتعتك. الزبائن يدفعون أولاً، فتحصل على أجرك عن كل تسليم."],
+"Continue as a seller":["Continuer en tant que vendeur","Continuar como vendedor","المتابعة كبائع"],
+"Every purchase is protected until it reaches you.":["Chaque achat est protégé jusqu'à sa réception.","Cada compra está protegida hasta que llega a ti.","كل عملية شراء محمية حتى تصل إليك."],
+"Search products":["Rechercher des produits","Buscar productos","ابحث عن منتجات"],"+ {m} buyer protection":["+ {m} protection acheteur","+ {m} protección al comprador","+ {m} حماية المشتري"],
+"Your listing":["Votre annonce","Tu anuncio","منتجك"],"Buy securely":["Acheter en sécurité","Comprar con seguridad","اشترِ بأمان"],
+"The shop is empty":["La boutique est vide","La tienda está vacía","المتجر فارغ"],"List the first product and start earning.":["Publiez le premier produit et commencez à gagner.","Publica el primer producto y empieza a ganar.","أضف أول منتج وابدأ الربح."],
+"Sell something":["Vendre quelque chose","Vender algo","بع شيئاً"],"Item price":["Prix de l'article","Precio del artículo","سعر المنتج"],"Buyer protection":["Protection acheteur","Protección al comprador","حماية المشتري"],
+"Total":["Total","Total","المجموع"],"Your money stays locked in escrow until you confirm delivery.":["Votre argent reste bloqué en séquestre jusqu'à confirmation de la livraison.","Tu dinero queda en custodia hasta que confirmes la entrega.","يبقى مالك محجوزاً في الضمان حتى تؤكد التسليم."],
+"Continue to payment":["Continuer vers le paiement","Continuar al pago","المتابعة إلى الدفع"],"Secure payment":["Paiement sécurisé","Pago seguro","دفع آمن"],"Order #{n}":["Commande n°{n}","Pedido n.º {n}","الطلب رقم {n}"],
+"Card number":["Numéro de carte","Número de tarjeta","رقم البطاقة"],"Expiry":["Expiration","Caducidad","تاريخ الانتهاء"],"CVC":["CVC","CVC","رمز الأمان"],"Pay {m}":["Payer {m}","Pagar {m}","ادفع {m}"],
+"Demo mode: no real money moves. A Tunisian payment provider connects here.":["Mode démo : aucun argent réel n'est débité. Un prestataire de paiement tunisien se connectera ici.","Modo demo: no se mueve dinero real. Aquí se conectará un proveedor de pago tunecino.","وضع تجريبي: لا يتم سحب أي مبلغ حقيقي. سيُربط هنا مزوّد دفع تونسي."],
+"Payment secured. The seller can ship now.":["Paiement sécurisé. Le vendeur peut expédier.","Pago asegurado. El vendedor ya puede enviar.","تم تأمين الدفع. يمكن للبائع الشحن الآن."],
+"Hello {n}":["Bonjour {n}","Hola {n}","مرحباً {n}"],"Here is how your shop is doing.":["Voici l'état de votre boutique.","Así va tu tienda.","هذا وضع متجرك."],"Earned":["Gagné","Ganado","الأرباح"],
+"Waiting to ship":["À expédier","Por enviar","بانتظار الشحن"],"Needs your action":["À traiter","Requiere tu acción","يحتاج إلى إجراء منك"],"You are all caught up":["Tout est à jour","Estás al día","كل شيء مكتمل"],
+"New paid orders will appear here.":["Les nouvelles commandes payées apparaîtront ici.","Los nuevos pedidos pagados aparecerán aquí.","ستظهر هنا الطلبات المدفوعة الجديدة."],"Add a product":["Ajouter un produit","Añadir un producto","أضف منتجاً"],
+"Pro Seller progress":["Progression vers Vendeur Pro","Progreso a Vendedor Pro","التقدم نحو بائع محترف"],"Pro sellers pay lower fees and get paid first.":["Les vendeurs Pro paient moins de frais et sont payés en premier.","Los vendedores Pro pagan menos comisión y cobran primero.","البائعون المحترفون يدفعون رسوماً أقل ويُدفع لهم أولاً."],
+"Completed orders":["Commandes terminées","Pedidos completados","الطلبات المكتملة"],"{a} of 30":["{a} sur 30","{a} de 30","{a} من 30"],"Rating":["Note","Valoración","التقييم"],"{a} of 4.6":["{a} sur 4,6","{a} de 4,6","{a} من 4.6"],
+"Dispute rate must stay under 1%. Now {p}%.":["Le taux de litiges doit rester sous 1 %. Actuellement {p} %.","La tasa de disputas debe ser menor al 1 %. Ahora {p} %.","يجب أن تبقى نسبة النزاعات أقل من 1٪. حالياً {p}٪."],
+"Customers pay first, so you never ship to someone who ghosts you.":["Les clients paient d'abord : vous n'expédiez jamais à quelqu'un qui disparaît.","Los clientes pagan primero, así nunca envías a quien desaparece.","الزبائن يدفعون أولاً، فلن تشحن أبداً لمن يختفي بعد الطلب."],
+"What are you selling?":["Que vendez-vous ?","¿Qué vendes?","ماذا تبيع؟"],"e.g. Handmade leather bag":["ex. Sac en cuir fait main","p. ej. Bolso de cuero artesanal","مثال: حقيبة جلدية يدوية الصنع"],
+"Price (TND)":["Prix (TND)","Precio (TND)","السعر (د.ت)"],"Publish listing":["Publier l'annonce","Publicar anuncio","انشر المنتج"],"Your listings":["Vos annonces","Tus anuncios","منتجاتك"],
+"Your fee: {m}":["Vos frais : {m}","Tu comisión: {m}","عمولتك: {m}"],"(Pro rate)":["(tarif Pro)","(tarifa Pro)","(سعر المحترفين)"],"No listings yet":["Aucune annonce","Aún no hay anuncios","لا توجد منتجات بعد"],
+"Publish your first product above.":["Publiez votre premier produit ci-dessus.","Publica tu primer producto arriba.","انشر أول منتج لك أعلاه."],"Listing published":["Annonce publiée","Anuncio publicado","تم نشر المنتج"],
+"Buy from abroad":["Acheter de l'étranger","Compra del extranjero","اشترِ من الخارج"],"Shein, Amazon, Temu, Zalando. A verified traveler brings your order home in their luggage.":["Shein, Amazon, Temu, Zalando. Un voyageur vérifié rapporte votre commande dans ses bagages.","Shein, Amazon, Temu, Zalando. Un viajero verificado trae tu pedido en su equipaje.","شي إن، أمازون، تيمو، زالاندو. مسافر موثّق يحمل طلبك إلى تونس في أمتعته."],
+"Tunisia":["Tunisie","Túnez","تونس"],"Arrives {d}":["Arrive le {d}","Llega el {d}","يصل في {d}"],"{n} kg":["{n} kg","{n} kg","{n} كغ"],"space left in luggage":["d'espace restant dans les bagages","de espacio libre en el equipaje","مساحة متبقية في الأمتعة"],
+"Request an item":["Demander un article","Pedir un artículo","اطلب منتجاً"],"No trips yet":["Aucun voyage","Aún no hay viajes","لا توجد رحلات بعد"],"Travelers heading to Tunisia will show up here. Check back soon.":["Les voyageurs vers la Tunisie apparaîtront ici. Revenez bientôt.","Los viajeros que vayan a Túnez aparecerán aquí. Vuelve pronto.","سيظهر هنا المسافرون إلى تونس. عُد قريباً."],
+"Earn money for the free space in your luggage when you travel to Tunisia.":["Gagnez de l'argent avec la place libre dans vos bagages quand vous voyagez vers la Tunisie.","Gana dinero con el espacio libre de tu equipaje cuando viajes a Túnez.","اكسب مالاً من المساحة الفارغة في أمتعتك عند سفرك إلى تونس."],
+"Coming from":["Vous venez de","Vienes de","قادم من"],"Arrival date":["Date d'arrivée","Fecha de llegada","تاريخ الوصول"],"Free space (kg)":["Place libre (kg)","Espacio libre (kg)","المساحة الفارغة (كغ)"],
+"Post my trip":["Publier mon voyage","Publicar mi viaje","انشر رحلتي"],"Your posted trips":["Vos voyages publiés","Tus viajes publicados","رحلاتك المنشورة"],"No trips posted":["Aucun voyage publié","No hay viajes publicados","لا توجد رحلات منشورة"],
+"Add your next trip above and buyers can send you requests.":["Ajoutez votre prochain voyage ci-dessus et les acheteurs pourront vous envoyer des demandes.","Añade tu próximo viaje arriba y los compradores podrán enviarte solicitudes.","أضف رحلتك القادمة أعلاه ليتمكن المشترون من إرسال طلباتهم."],"Trip posted":["Voyage publié","Viaje publicado","تم نشر الرحلة"],
+"Request from {n}":["Demande à {n}","Solicitud a {n}","طلب من {n}"],"{c} to Tunisia · {k} kg left":["{c} vers la Tunisie · {k} kg restants","{c} a Túnez · quedan {k} kg","من {c} إلى تونس · متبقٍ {k} كغ"],
+"Item name or link":["Nom ou lien de l'article","Nombre o enlace del artículo","اسم المنتج أو رابطه"],"e.g. Nike Air Force 1, size 42":["ex. Nike Air Force 1, taille 42","p. ej. Nike Air Force 1, talla 42","مثال: نايك إير فورس 1، مقاس 42"],
+"Item price (TND)":["Prix de l'article (TND)","Precio del artículo (TND)","سعر المنتج (د.ت)"],"Weight (kg)":["Poids (kg)","Peso (kg)","الوزن (كغ)"],"Item":["Article","Artículo","المنتج"],"Traveler reward":["Rémunération du voyageur","Pago al viajero","أجر المسافر"],"Service fee":["Frais de service","Comisión de servicio","رسوم الخدمة"],
+"Follow each order, and find your delivery codes here.":["Suivez chaque commande et retrouvez vos codes de livraison ici.","Sigue cada pedido y encuentra aquí tus códigos de entrega.","تابع كل طلب وستجد رموز التسليم هنا."],
+"Ship paid orders, then enter the buyer's code at handover to get paid.":["Expédiez les commandes payées, puis saisissez le code de l'acheteur à la remise pour être payé.","Envía los pedidos pagados y, en la entrega, introduce el código del comprador para cobrar.","اشحن الطلبات المدفوعة ثم أدخل رمز المشتري عند التسليم لتقبض أجرك."],
+"No orders yet":["Aucune commande","Aún no hay pedidos","لا توجد طلبات بعد"],"No sales yet":["Aucune vente","Aún no hay ventas","لا توجد مبيعات بعد"],"Your purchases will show up here.":["Vos achats apparaîtront ici.","Tus compras aparecerán aquí.","ستظهر مشترياتك هنا."],
+"Paid orders will show up here.":["Les commandes payées apparaîtront ici.","Los pedidos pagados aparecerán aquí.","ستظهر هنا الطلبات المدفوعة."],"Browse the shop":["Parcourir la boutique","Ver la tienda","تصفّح المتجر"],"Local":["Local","Local","محلي"],
+"Seller {n}":["Vendeur {n}","Vendedor {n}","البائع {n}"],"Buyer {n}":["Acheteur {n}","Comprador {n}","المشتري {n}"],"Waiting for payment":["En attente de paiement","Esperando el pago","بانتظار الدفع"],"Paid, held in escrow":["Payé, fonds sécurisés","Pagado, en custodia","مدفوع، محجوز في الضمان"],
+"Under review":["En cours d'examen","En revisión","قيد المراجعة"],"Refunded":["Remboursé","Reembolsado","تم الاسترداد"],"Cancelled":["Annulé","Cancelado","ملغى"],
+"This order is under review. We will decide within 48 hours.":["Cette commande est en cours d'examen. Nous déciderons sous 48 heures.","Este pedido está en revisión. Decidiremos en 48 horas.","هذا الطلب قيد المراجعة. سنقرر خلال 48 ساعة."],
+"This order was refunded to the buyer.":["Cette commande a été remboursée à l'acheteur.","Este pedido fue reembolsado al comprador.","تم استرداد مبلغ هذا الطلب للمشتري."],"This order was cancelled.":["Cette commande a été annulée.","Este pedido fue cancelado.","تم إلغاء هذا الطلب."],
+"Pay securely":["Payer en sécurité","Pagar con seguridad","ادفع بأمان"],"Your delivery code":["Votre code de livraison","Tu código de entrega","رمز التسليم الخاص بك"],"Share it only when your order arrives.":["Ne le donnez qu'à la réception de votre commande.","Compártelo solo cuando llegue tu pedido.","شاركه فقط عند وصول طلبك."],
+"Copy":["Copier","Copiar","نسخ"],"Code copied":["Code copié","Código copiado","تم نسخ الرمز"],"Mark as shipped":["Marquer comme expédié","Marcar como enviado","تم الشحن"],"Marked as shipped":["Marqué comme expédié","Marcado como enviado","تم تسجيل الشحن"],
+"Buyer's 6-digit code":["Code à 6 chiffres de l'acheteur","Código de 6 dígitos del comprador","رمز المشتري المكوّن من 6 أرقام"],"Confirm delivery":["Confirmer la livraison","Confirmar entrega","تأكيد التسليم"],
+"Delivery confirmed. Your payout is released.":["Livraison confirmée. Votre paiement est libéré.","Entrega confirmada. Tu pago ha sido liberado.","تم تأكيد التسليم. تم تحرير أموالك."],"Report a problem":["Signaler un problème","Informar de un problema","الإبلاغ عن مشكلة"],
+"Report a problem with this order?":["Signaler un problème avec cette commande ?","¿Informar de un problema con este pedido?","هل تريد الإبلاغ عن مشكلة في هذا الطلب؟"],"Problem reported. We are reviewing it.":["Problème signalé. Nous l'examinons.","Problema informado. Lo estamos revisando.","تم الإبلاغ عن المشكلة. نحن نراجعها."],
+"Rate {n}":["Noter {n}","Valora a {n}","قيّم {n}"],"Thanks for rating":["Merci pour votre note","Gracias por valorar","شكراً على تقييمك"],"Total paid":["Total payé","Total pagado","المبلغ المدفوع"],"You receive":["Vous recevez","Recibes","ستستلم"],
+"Disputes":["Litiges","Disputas","النزاعات"],"Decide who gets the money held in escrow.":["Décidez qui reçoit l'argent bloqué en séquestre.","Decide quién recibe el dinero en custodia.","قرّر من يستلم المبلغ المحجوز في الضمان."],"Buyer {b} · Provider {p}":["Acheteur {b} · Prestataire {p}","Comprador {b} · Proveedor {p}","المشتري {b} · المزوّد {p}"],
+"Refund buyer":["Rembourser l'acheteur","Reembolsar al comprador","استرداد للمشتري"],"Pay provider":["Payer le prestataire","Pagar al proveedor","الدفع للمزوّد"],"Buyer refunded":["Acheteur remboursé","Comprador reembolsado","تم استرداد المبلغ للمشتري"],"Provider paid":["Prestataire payé","Proveedor pagado","تم الدفع للمزوّد"],
+"No open disputes":["Aucun litige ouvert","No hay disputas abiertas","لا توجد نزاعات مفتوحة"],"Everything is running smoothly.":["Tout se passe bien.","Todo va sobre ruedas.","كل شيء يسير على ما يرام."],
+"France":["France","Francia","فرنسا"],"Italy":["Italie","Italia","إيطاليا"],"Germany":["Allemagne","Alemania","ألمانيا"],"Türkiye":["Turquie","Turquía","تركيا"],"UAE":["Émirats arabes unis","Emiratos Árabes","الإمارات"],"Canada":["Canada","Canadá","كندا"],
+"Check the information and try again":["Vérifiez les informations et réessayez","Revisa los datos e inténtalo de nuevo","تحقق من المعلومات وأعد المحاولة"],
+"Wrong code. Please check it and try again.":["Code incorrect. Vérifiez-le et réessayez.","Código incorrecto. Revísalo e inténtalo de nuevo.","الرمز غير صحيح. تحقق منه وحاول مجدداً."],
+"You can't buy from yourself":["Vous ne pouvez pas acheter chez vous-même","No puedes comprarte a ti mismo","لا يمكنك الشراء من نفسك"],
+"too many attempts, order locked: open a dispute":["Trop de tentatives, commande bloquée : ouvrez un litige","Demasiados intentos, pedido bloqueado: abre una disputa","محاولات كثيرة، تم قفل الطلب: افتح نزاعاً"],
+"Please enter your name (2-40 characters)":["Saisissez votre nom (2 à 40 caractères)","Escribe tu nombre (2 a 40 caracteres)","أدخل اسمك (من 2 إلى 40 حرفاً)"],
+"Enter a title and a price":["Saisissez un titre et un prix","Escribe un título y un precio","أدخل عنواناً وسعراً"],"Enter the item name and price":["Saisissez le nom et le prix de l'article","Escribe el nombre y el precio del artículo","أدخل اسم المنتج وسعره"],
+"available space must be between 0 and 30 kg":["La place disponible doit être entre 0 et 30 kg","El espacio disponible debe estar entre 0 y 30 kg","يجب أن تكون المساحة بين 0 و30 كغ"],
+"This traveler only has {n} kg left":["Ce voyageur n'a plus que {n} kg","Este viajero solo tiene {n} kg libres","لدى هذا المسافر {n} كغ فقط"],
+"Product photo (optional)":["Photo du produit (facultatif)","Foto del producto (opcional)","صورة المنتج (اختياري)"],"Add a photo":["Ajouter une photo","Añadir una foto","أضف صورة"],"Change photo":["Changer la photo","Cambiar foto","غيّر الصورة"],
+"That file is not an image":["Ce fichier n'est pas une image","Ese archivo no es una imagen","هذا الملف ليس صورة"],"Photo is too large (max 700 KB)":["Photo trop lourde (max 700 Ko)","La foto es demasiado grande (máx. 700 KB)","الصورة كبيرة جداً (الحد الأقصى 700 ك.ب)"],
+"Photo must be a JPG, PNG or WebP image":["La photo doit être au format JPG, PNG ou WebP","La foto debe ser JPG, PNG o WebP","يجب أن تكون الصورة بصيغة JPG أو PNG أو WebP"],
+"Items you want":["Articles souhaités","Artículos que quieres","المنتجات التي تريدها"],"Link to the item":["Lien de l'article","Enlace del artículo","رابط المنتج"],"Item name":["Nom de l'article","Nombre del artículo","اسم المنتج"],
+"Price":["Prix","Precio","السعر"],"Currency":["Devise","Moneda","العملة"],"Qty":["Qté","Cant.","الكمية"],"Weight each (kg)":["Poids unitaire (kg)","Peso por unidad (kg)","وزن القطعة (كغ)"],
+"Add another item":["Ajouter un autre article","Añadir otro artículo","أضف منتجاً آخر"],"Remove":["Retirer","Quitar","حذف"],"Item {n}":["Article {n}","Artículo {n}","المنتج {n}"],
+"Items total":["Total des articles","Total de artículos","مجموع المنتجات"],"Total weight":["Poids total","Peso total","الوزن الإجمالي"],
+"Exchange rates: live":["Taux de change : en direct","Tipos de cambio: en vivo","أسعار الصرف: مباشرة"],"Exchange rates: approximate":["Taux de change : approximatifs","Tipos de cambio: aproximados","أسعار الصرف: تقريبية"],
+"The TND price is locked when you place your order.":["Le prix en TND est fixé à la commande.","El precio en TND se fija al hacer el pedido.","يُثبَّت السعر بالدينار عند تقديم الطلب."],
+"{n} items":["{n} articles","{n} artículos","{n} منتجات"],"1 item":["1 article","1 artículo","منتج واحد"],"Open link":["Ouvrir le lien","Abrir enlace","فتح الرابط"],
+"Add at least one item":["Ajoutez au moins un article","Añade al menos un artículo","أضف منتجاً واحداً على الأقل"],"Each item needs a name and a price above 0":["Chaque article doit avoir un nom et un prix supérieur à 0","Cada artículo necesita nombre y un precio mayor que 0","يحتاج كل منتج إلى اسم وسعر أكبر من 0"],
+"Each item needs a weight between 0.05 and 30 kg":["Chaque article doit peser entre 0,05 et 30 kg","Cada artículo debe pesar entre 0,05 y 30 kg","يجب أن يكون وزن كل منتج بين 0.05 و30 كغ"],"Links must start with http:// or https://":["Les liens doivent commencer par http:// ou https://","Los enlaces deben empezar por http:// o https://","يجب أن تبدأ الروابط بـ http:// أو https://"],
+"Currency not supported":["Devise non prise en charge","Moneda no admitida","العملة غير مدعومة"],"Maximum 15 items per request":["Maximum 15 articles par demande","Máximo 15 artículos por solicitud","الحد الأقصى 15 منتجاً في الطلب"],"Quantity must be between 1 and 20":["La quantité doit être entre 1 et 20","La cantidad debe estar entre 1 y 20","يجب أن تكون الكمية بين 1 و20"]
+};
+let lang = localStorage.getItem('abroad_lang') || 'en';
+const t = (s, v) => { let r = lang==='en' ? s : ((L[s] && L[s][IDX[lang]]) || s); if(v) for(const k in v) r = r.split('{'+k+'}').join(v[k]); return r; };
+const trErr = m => { const x=/^This traveler only has (.+) kg left$/.exec(m); return x ? t('This traveler only has {n} kg left',{n:x[1]}) : t(m); };
+const q = s => JSON.stringify(s).replace(/"/g,'&quot;');   // safe text for inline onclick attributes
+function applyLang(){ document.documentElement.lang=lang; document.documentElement.dir = lang==='ar'?'rtl':'ltr'; $('#lcode').textContent = LANGS[lang][1]; }
+function setLang(l){ lang=l; localStorage.setItem('abroad_lang',l); closeMenu(); applyLang(); render(); }
+function buildMenu(){ $('#menu').innerHTML = `<div class="small" style="padding:6px 12px">${esc(t('Language'))}</div>` + Object.entries(LANGS).map(([k,[n]])=>`<button class="${k===lang?'cur':''}" onclick="setLang('${k}')">${n}</button>`).join('') + (user?`<hr><button onclick="logout()">${esc(t('Log out'))}</button>`:''); }
+function toggleMenu(e){ e.stopPropagation(); const m=$('#menu'); buildMenu(); m.style.display = m.style.display==='block'?'none':'block'; }
+function closeMenu(){ $('#menu').style.display='none'; }
+document.addEventListener('click', closeMenu);
+
+const COUNTRIES = {FR:'France', IT:'Italy', DE:'Germany', TR:'Türkiye', AE:'UAE', CA:'Canada'};
+const STATUS = {CREATED:'Waiting for payment', FUNDED:'Paid, held in escrow', SHIPPED:'On its way', RELEASED:'Delivered', DISPUTED:'Under review', REFUNDED:'Refunded', CANCELLED:'Cancelled'};
+const money = m => { const v=m/1000; return (Number.isInteger(v)?v.toLocaleString('en'):v.toLocaleString('en',{minimumFractionDigits:3,maximumFractionDigits:3}))+' '+t('TND'); };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ic = (n,c='') => `<svg class="ic ${c}" aria-hidden="true"><use href="#${n}"/></svg>`;
+const hue = s => [...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0) % 6;
+const av = n => `<span class="av a${hue(n)}">${esc(n.trim()[0].toUpperCase())}</span>`;
+const thumb = l => l.has_image ? `<img class="ph" loading="lazy" src="/api/listings/${l.id}/image" alt="${esc(l.title)}">` : tile(l.title);
+let PHOTO = null;
+function pickPhoto(inp){            // shrink the photo in the browser first, so uploads are small and fast
+  const f=inp.files[0]; if(!f) return; const img=new Image(), url=URL.createObjectURL(f);
+  img.onload=()=>{ const k=Math.min(1,900/Math.max(img.width,img.height)), c=document.createElement('canvas');
+    c.width=Math.round(img.width*k); c.height=Math.round(img.height*k); c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    PHOTO=c.toDataURL('image/jpeg',.82); $('#prev').src=PHOTO; $('#prev').hidden=false; $('#phtxt').hidden=true; URL.revokeObjectURL(url); };
+  img.onerror=()=>toast(t('That file is not an image'),true); img.src=url;
+}
+const tile = x => `<div class="tile t${hue(x)}">${esc(x.trim()[0].toUpperCase())}</div>`;
+let user = JSON.parse(localStorage.getItem('abroad_user') || 'null'), role = localStorage.getItem('abroad_role'), view = 'shop', DATA = {};
+let SEEN = JSON.parse(localStorage.getItem('abroad_seen') || '{}');
+
+async function api(path, method='GET', body){
+  const r = await fetch('/api'+path, {method, headers:{'Content-Type':'application/json'}, body: body ? JSON.stringify(body) : undefined});
+  const d = await r.json().catch(() => ({}));
+  if(!r.ok) throw new Error(typeof d.detail === 'string' ? d.detail : 'Check the information and try again');
+  return d;
+}
+function toast(msg, err){ const x=$('#toast'); x.textContent=msg; x.className=(err?'err ':'')+'show'; clearTimeout(x._h); x._h=setTimeout(()=>x.classList.remove('show'),3400); }
+const fail = e => toast(trErr(e.message), true);
+function modal(html, wide){ $('#modal').className = wide ? 'wide' : ''; $('#modal').innerHTML=html; $('#overlay').style.display='flex'; const i=$('#modal input'); if(i) i.focus(); }
+function closeModal(){ $('#overlay').style.display='none'; }
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeModal(); closeMenu(); } });
+async function run(fn){
+  const ev=window.event, b=ev&&ev.target&&ev.target.closest&&ev.target.closest('button');
+  if(b){ b.classList.add('busy'); b.disabled=true; }
+  try{ await fn(); }catch(e){ fail(e); } finally{ if(b){ b.classList.remove('busy'); b.disabled=false; } }
+}
+function go(v){ view=v; render(); window.scrollTo({top:0}); }
+function logout(){ closeMenu(); localStorage.removeItem('abroad_user'); localStorage.removeItem('abroad_role'); user=null; role=null; render(); }
+function setRole(r){ role=r; localStorage.setItem('abroad_role',r); view=TABS[r][0][0]; render(); window.scrollTo({top:0}); }
+function show(html){ const a=$('#app'); a.innerHTML=html; a.classList.remove('enter'); void a.offsetWidth; a.classList.add('enter'); }
+
+const TABS = {
+  buyer:[['shop','Shop','bag'],['travel','From abroad','plane'],['orders','My orders','receipt']],
+  seller:[['dash','Dashboard','chart'],['sell','Products','tag'],['trips','My trips','plane'],['orders','Sales','receipt']]};
+async function render(){
+  const nav=$('#nav'), who=$('#who');
+  if(!user){ nav.innerHTML=''; who.innerHTML=''; who.className='who'; $('#lo').innerHTML=''; return welcome(); }
+  if(!role){ nav.innerHTML=''; who.innerHTML=av(user.name); who.className='who'; $('#lo').innerHTML=logoutBtn(); return chooser(); }
+  const tabs=[...TABS[role]]; if(user.name.toLowerCase()==='admin') tabs.push(['admin','Admin','shield']);
+  if(!tabs.some(x=>x[0]===view)) view=tabs[0][0];
+  nav.className = tabs.length>4 ? 'many' : '';
+  nav.innerHTML = tabs.map(([k,l,i])=>`<button class="${view===k?'on':''}" onclick="go('${k}')">${ic(i)}<span>${esc(t(l))}</span></button>`).join('');
+  who.innerHTML = `${av(user.name)}<div class="seg"><button class="${role==='buyer'?'on':''}" onclick="setRole('buyer')">${esc(t('Buyer'))}</button><button class="${role==='seller'?'on':''}" onclick="setRole('seller')">${esc(t('Seller'))}</button></div>`; who.className='who has'; $('#lo').innerHTML=logoutBtn();
+  try{ await ({shop,travel,orders,dash,sell,trips,admin})[view](); }catch(e){ fail(e); }
+}
+const logoutBtn = () => `<button class="btn alt sm lo" onclick="logout()" aria-label="${esc(t('Log out'))}">${ic('logout')}<span>${esc(t('Log out'))}</span></button>`;
+function chooser(){
+  show(`<div class="pick"><h1>${esc(t('Hi {n}, what brings you to Abroad today?',{n:user.name.split(' ')[0]}))}</h1><p class="sub">${t('Pick one to start. You can switch any time from the top bar.')}</p>
+    <div class="two pickgrid">
+      <button class="role buy" onclick="setRole('buyer')"><div class="big">${ic('bag')}</div><b>${t('I want to buy')}</b><span>${t('Shop products from Tunisian sellers, or order from Shein, Amazon and more through travelers. Your money stays safe until it arrives.')}</span><i>${t('Continue as a buyer')}</i></button>
+      <button class="role sell" onclick="setRole('seller')"><div class="big">${ic('tag')}</div><b>${t('I want to sell')}</b><span>${t('List your products or carry orders in your luggage. Customers pay first, so you get paid for every delivery.')}</span><i>${t('Continue as a seller')}</i></button>
+    </div></div>`);
+}
+
+/* ---------- flight track ---------- */
+const STEPS = ['Ordered','Paid','On its way','Delivered'];
+function track(id, step){
+  const from = SEEN[id] ?? 0, p = i => i*33.333;
+  return `<div class="track" data-id="${id}" data-to="${step}"><div class="rail"><i style="width:${p(from)}%"></i></div>
+    ${STEPS.map((_,i)=>`<b class="stop ${i<=step?'on':''}" style="left:${p(i)}%"></b>`).join('')}
+    <svg class="jet" style="left:${p(from)}%" aria-hidden="true"><use href="#plane"/></svg>
+    <div class="lbls">${STEPS.map((l,i)=>`<span class="${i<=step?'on':''}">${t(l)}</span>`).join('')}</div></div>`;
+}
+function flyPlanes(){
+  document.querySelectorAll('.track').forEach(x=>{
+    const to=+x.dataset.to; SEEN[x.dataset.id]=to;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ x.querySelector('.jet').style.left=to*33.333+'%'; x.querySelector('.rail i').style.width=to*33.333+'%'; }));
+  });
+  localStorage.setItem('abroad_seen', JSON.stringify(SEEN));
+}
+
+/* ---------- Welcome ---------- */
+function welcome(){
+  delete SEEN.demo;
+  show(`<div class="hero"><div>
+      <h1>${t('Buy and sell in Tunisia without the risk.')}</h1>
+      <p class="sub">${t('Your payment stays locked until your order arrives. Sellers always get paid. Shop from abroad through travelers heading home.')}</p>
+      <div class="card"><label for="nm">${t('Your name')}</label>
+        <input id="nm" placeholder="${esc(t('e.g. Sara Ben Ali'))}" autocomplete="name" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="btn full" onclick="doLogin()">${t('Start shopping')}</button></div></div>
+      <div class="ticket"><div class="head"><div><h3>Nike sneakers from Zalando</h3><div class="small">${t('Paris to Tunis · carried by Amine')}</div></div><span class="pill SHIPPED">${t('On its way')}</span></div>
+        ${track('demo',2)}<div class="perf"></div>
+        <div class="foot"><div><div class="small">${t('Held in escrow')}</div><div class="amount">204.750 ${t('TND')}</div></div><div class="small">${t('Released when you share your code')}</div></div></div>
+    </div>`);
+  flyPlanes();
+}
+function doLogin(){ run(async()=>{ user = await api('/login','POST',{name:$('#nm').value}); localStorage.setItem('abroad_user',JSON.stringify(user)); role=null; localStorage.removeItem('abroad_role'); render(); }); }
+
+/* ---------- Shop (buyer) ---------- */
+async function shop(){
+  DATA.listings = await api('/listings');
+  show(`<h1>${t('Shop')}</h1><p class="sub">${t('Every purchase is protected until it reaches you.')}</p>
+    <div class="search">${ic('search')}<input id="q" placeholder="${esc(t('Search products'))}" oninput="filterShop()"></div>
+    <div class="grid" id="grid">${DATA.listings.map(l=>`
+      <div class="item" data-t="${esc(l.title.toLowerCase())}">${thumb(l)}
+        <div class="body"><h3>${esc(l.title)}</h3><div class="seller">${av(l.seller_name)}${esc(l.seller_name)}${l.pro?'<span class="pro">PRO</span>':''}</div>
+        <div class="price">${money(l.price)}</div><div class="small">${t('+ {m} buyer protection',{m:money(l.fee)})}</div>
+        ${l.seller_id===user.id?`<div class="small" style="margin-top:14px">${t('Your listing')}</div>`:`<button class="btn full" onclick="buy(${l.id})">${t('Buy securely')}</button>`}</div></div>`).join('')}</div>
+    ${DATA.listings.length?'':`<div class="empty"><b>${t('The shop is empty')}</b>${t('List the first product and start earning.')}<br><button class="btn" onclick="setRole('seller')">${t('Sell something')}</button></div>`}`);
+}
+function filterShop(){ const x=$('#q').value.toLowerCase(); document.querySelectorAll('#grid .item').forEach(c=>c.style.display=c.dataset.t.includes(x)?'':'none'); }
+function buy(id){
+  const l=DATA.listings.find(x=>x.id===id);
+  modal(`${l.has_image?`<img class="ph" style="height:190px;border-radius:16px;margin-bottom:12px" src="/api/listings/${l.id}/image" alt="">`:''}<h3>${esc(l.title)}</h3><div class="row"><span>${t('Item price')}</span><span>${money(l.price)}</span></div>
+    <div class="row"><span>${t('Buyer protection')}</span><span>${money(l.fee)}</span></div>
+    <div class="row t"><span>${t('Total')}</span><span>${money(l.price+l.fee)}</span></div>
+    <p class="small">${t('Your money stays locked in escrow until you confirm delivery.')}</p>
+    <button class="btn full" onclick="startLocal(${id})">${t('Continue to payment')}</button>`);
+}
+function startLocal(id){ run(async()=>{ const r=await api('/orders/local','POST',{buyer_id:user.id,listing_id:id}); await payModal(r.id); }); }
+async function payModal(oid){
+  const o = await api('/orders/'+oid);
+  modal(`<h3>${t('Secure payment')}</h3><p class="small">${t('Order #{n}',{n:o.id})} · ${esc(o.title)}</p>
+    <label>${t('Card number')}</label><input value="4242 4242 4242 4242" inputmode="numeric" dir="ltr">
+    <div class="two"><div><label>${t('Expiry')}</label><input value="12/29" dir="ltr"></div><div><label>${t('CVC')}</label><input value="123" dir="ltr"></div></div>
+    <button class="btn full" onclick="doPay(${oid})">${t('Pay {m}',{m:money(o.total)})}</button>
+    <p class="small" style="margin-bottom:0">${t('Demo mode: no real money moves. A Tunisian payment provider connects here.')}</p>`);
+}
+function doPay(oid){ run(async()=>{ await api('/orders/'+oid+'/pay','POST',{gateway_ref:'demo-'+Date.now()}); closeModal(); toast(t('Payment secured. The seller can ship now.')); go('orders'); }); }
+
+/* ---------- Seller: dashboard + products ---------- */
+async function dash(){
+  const [Lst,me] = await Promise.all([api(`/users/${user.id}/orders`), api('/me/'+user.id)]); user = me;
+  const mine=Lst.filter(o=>o.provider_id===user.id), sum=f=>mine.filter(f).reduce((a,o)=>a+o.payout,0);
+  const todo=mine.filter(o=>o.state==='FUNDED'||o.state==='SHIPPED'), toShip=mine.filter(o=>o.state==='FUNDED').length;
+  const bar=(label,txt,pct)=>`<div class="row" style="margin-bottom:0"><span>${label}</span><span class="small">${txt}</span></div><div class="bar2"><i style="width:${Math.min(100,pct)}%"></i></div>`;
+  show(`<h1>${esc(t('Hello {n}',{n:user.name.split(' ')[0]}))}</h1><p class="sub">${t('Here is how your shop is doing.')}</p>
+    <div class="stats"><div class="card stat"><span class="small">${t('Earned')}</span><b>${money(sum(o=>o.state==='RELEASED'))}</b></div>
+      <div class="card stat"><span class="small">${t('Held in escrow')}</span><b>${money(sum(o=>o.state==='FUNDED'||o.state==='SHIPPED'))}</b></div>
+      <div class="card stat"><span class="small">${t('Waiting to ship')}</span><b>${toShip}</b></div></div>
+    <h2>${t('Needs your action')}</h2>${todo.map(orderCard).join('') || `<div class="empty"><b>${t('You are all caught up')}</b>${t('New paid orders will appear here.')}<br><button class="btn" onclick="go('sell')">${t('Add a product')}</button></div>`}
+    <h2>${t('Pro Seller progress')}</h2><div class="card" style="max-width:520px"><p class="small" style="margin-top:0">${t('Pro sellers pay lower fees and get paid first.')}</p>
+      ${bar(t('Completed orders'),t('{a} of 30',{a:user.completed}),user.completed/30*100)}${bar(t('Rating'),t('{a} of 4.6',{a:user.rating||'-'}),user.rating/4.6*100)}
+      <div class="small">${t('Dispute rate must stay under 1%. Now {p}%.',{p:(user.dispute_rate*100).toFixed(1)})}</div></div>`);
+  flyPlanes();
+}
+async function sell(){
+  PHOTO=null;
+  const all = await api('/listings'), mine = all.filter(l=>l.seller_id===user.id);
+  show(`<h1>${t('Products')}</h1><p class="sub">${t('Customers pay first, so you never ship to someone who ghosts you.')}</p>
+    <div class="card" style="max-width:460px"><label for="st">${t('What are you selling?')}</label><input id="st" placeholder="${esc(t('e.g. Handmade leather bag'))}">
+      <label for="sp">${t('Price (TND)')}</label><input id="sp" type="number" min="1" step="0.5" placeholder="120" dir="ltr">
+      <label>${t('Product photo (optional)')}</label><label class="photo" for="pf"><img id="prev" alt="" hidden><span id="phtxt">${ic('camera')} ${t('Add a photo')}</span></label><input id="pf" type="file" accept="image/*" hidden onchange="pickPhoto(this)">
+      <button class="btn full" onclick="addListing()">${t('Publish listing')}</button></div>
+    <h2>${t('Your listings')}</h2>
+    <div class="grid">${mine.map(l=>`<div class="item">${thumb(l)}<div class="body"><h3>${esc(l.title)}</h3><div class="price">${money(l.price)}</div><div class="small">${t('Your fee: {m}',{m:money(l.fee)})}${user.pro?' '+t('(Pro rate)'):''}</div></div></div>`).join('')}</div>
+    ${mine.length?'':`<div class="empty"><b>${t('No listings yet')}</b>${t('Publish your first product above.')}</div>`}`);
+}
+function addListing(){ run(async()=>{ await api('/listings','POST',{seller_id:user.id,title:$('#st').value,price_tnd:parseFloat($('#sp').value),image:PHOTO}); PHOTO=null; toast(t('Listing published')); sell(); }); }
+
+/* ---------- Travelers ---------- */
+const tripCard = (x, canRequest) => `<div class="card trip"><div class="route">${esc(t(COUNTRIES[x.country]))} ${ic('plane')} ${t('Tunisia')}</div>
+  <div class="seller" style="margin-top:6px">${av(x.traveler_name)}${esc(x.traveler_name)}</div><div class="small">${t('Arrives {d}',{d:esc(x.date)})}</div>
+  <div class="kg">${t('{n} kg',{n:x.kg_left})}</div><div class="small">${t('space left in luggage')}</div>
+  ${canRequest?`<button class="btn full" style="margin-top:14px" onclick="run(()=>reqTrip(${x.id}))">${t('Request an item')}</button>`:''}</div>`;
+async function travel(){
+  DATA.trips = (await api('/trips')).filter(x=>x.traveler_id!==user.id);
+  show(`<h1>${t('Buy from abroad')}</h1><p class="sub">${t('Shein, Amazon, Temu, Zalando. A verified traveler brings your order home in their luggage.')}</p>
+    <div class="grid">${DATA.trips.map(x=>tripCard(x,true)).join('')}</div>
+    ${DATA.trips.length?'':`<div class="empty"><b>${t('No trips yet')}</b>${t('Travelers heading to Tunisia will show up here. Check back soon.')}</div>`}`);
+}
+async function trips(){
+  const mine=(await api('/trips')).filter(x=>x.traveler_id===user.id);
+  show(`<h1>${t('My trips')}</h1><p class="sub">${t('Earn money for the free space in your luggage when you travel to Tunisia.')}</p>
+    <div class="card" style="max-width:460px"><label>${t('Coming from')}</label>
+      <select id="tc">${Object.entries(COUNTRIES).map(([k,v])=>`<option value="${k}">${esc(t(v))}</option>`).join('')}</select>
+      <div class="two"><div><label>${t('Arrival date')}</label><input id="td" type="date" dir="ltr"></div><div><label>${t('Free space (kg)')}</label><input id="tk" type="number" min="1" max="30" value="5" dir="ltr"></div></div>
+      <button class="btn full" onclick="addTrip()">${t('Post my trip')}</button></div>
+    <h2>${t('Your posted trips')}</h2><div class="grid">${mine.map(x=>tripCard(x,false)).join('')}</div>
+    ${mine.length?'':`<div class="empty"><b>${t('No trips posted')}</b>${t('Add your next trip above and buyers can send you requests.')}</div>`}`);
+}
+function addTrip(){ run(async()=>{ await api('/trips','POST',{traveler_id:user.id,country:$('#tc').value,kg:parseFloat($('#tk').value),date:$('#td').value||'soon'}); toast(t('Trip posted')); trips(); }); }
+const CURRENCIES = ['EUR','USD','GBP','TRY','AED','SAR','CAD','CNY','CHF','TND'];
+const CUR_BY_COUNTRY = {FR:'EUR', IT:'EUR', DE:'EUR', TR:'TRY', AE:'AED', CA:'CAD'};
+let REQ = {trip:null, items:[], rates:null, timer:null};
+const newItem = c => ({url:'', name:'', price:'', currency:c, qty:1, weight:0.5});
+async function reqTrip(id){
+  REQ.trip = DATA.trips.find(x=>x.id===id); REQ.rates = await api('/rates');
+  REQ.items = [newItem(CUR_BY_COUNTRY[REQ.trip.country]||'EUR')]; drawReq();
+}
+function drawReq(){
+  const x=REQ.trip;
+  modal(`<h3>${esc(t('Request from {n}',{n:x.traveler_name}))}</h3><p class="small">${esc(t('{c} to Tunisia · {k} kg left',{c:t(COUNTRIES[x.country]),k:x.kg_left}))}</p>
+    <b>${t('Items you want')}</b><div style="margin-top:10px">${REQ.items.map((it,i)=>`<div class="itm">
+      <div class="itmh"><b>${esc(t('Item {n}',{n:i+1}))}</b>${REQ.items.length>1?`<button class="btn link" onclick="rmItem(${i})">${t('Remove')}</button>`:''}</div>
+      <label>${t('Link to the item')}</label><input placeholder="https://..." value="${esc(it.url)}" dir="ltr" oninput="setItem(${i},'url',this.value)">
+      <label>${t('Item name')}</label><input placeholder="${esc(t('e.g. Nike Air Force 1, size 42'))}" value="${esc(it.name)}" oninput="setItem(${i},'name',this.value)">
+      <div class="grid3"><div><label>${t('Price')}</label><input type="number" min="0" step="0.01" value="${esc(it.price)}" dir="ltr" oninput="setItem(${i},'price',this.value)"></div>
+        <div><label>${t('Currency')}</label><select onchange="setItem(${i},'currency',this.value)">${CURRENCIES.map(c=>`<option ${c===it.currency?'selected':''}>${c}</option>`).join('')}</select></div>
+        <div><label>${t('Qty')}</label><input type="number" min="1" max="20" value="${it.qty}" dir="ltr" oninput="setItem(${i},'qty',this.value)"></div></div>
+      <label>${t('Weight each (kg)')}</label><input type="number" min="0.05" step="0.05" value="${it.weight}" dir="ltr" oninput="setItem(${i},'weight',this.value)">
+      <div class="conv" id="cv${i}" dir="ltr"></div></div>`).join('')}</div>
+    <button class="btn alt sm" onclick="addItem()">+ ${t('Add another item')}</button>
+    <div id="qs" style="margin-top:14px"></div>
+    <p class="small">${t(REQ.rates.source==='live'?'Exchange rates: live':'Exchange rates: approximate')} · ${t('The TND price is locked when you place your order.')}</p>
+    <button class="btn full" onclick="sendTrip()">${t('Continue to payment')}</button>`, true);
+  doQuote();
+}
+function setItem(i,k,v){ REQ.items[i][k]=v; clearTimeout(REQ.timer); REQ.timer=setTimeout(doQuote,350); }
+function addItem(){ REQ.items.push(newItem(REQ.items[REQ.items.length-1].currency)); drawReq(); }
+function rmItem(i){ REQ.items.splice(i,1); drawReq(); }
+const payloadItems = () => REQ.items.map(it=>({name:it.name,url:it.url,price:parseFloat(it.price),currency:it.currency,qty:parseInt(it.qty)||1,weight_kg:parseFloat(it.weight)}));
+async function doQuote(){
+  const idx=[], items=[]; payloadItems().forEach((it,i)=>{ if(it.price>0 && it.weight_kg>0){ idx.push(i); items.push({...it,name:it.name||'-'}); } });
+  document.querySelectorAll('.conv').forEach(e=>e.textContent=''); if(!items.length) return $('#qs').innerHTML='';
+  try{
+    const q = await api('/quote/items','POST',{trip_id:REQ.trip.id,items});
+    q.items.forEach((l,n)=>{ const e=$('#cv'+idx[n]); if(e) e.textContent=`${l.price} ${l.currency}${l.qty>1?' × '+l.qty:''} ≈ ${money(l.price_tnd)}`; });
+    $('#qs').innerHTML=`<div class="row"><span>${t('Items total')}</span><span>${money(q.item_price)}</span></div><div class="row"><span>${t('Total weight')}</span><span dir="ltr">${t('{n} kg',{n:q.weight_kg})}</span></div>
+      <div class="row"><span>${t('Traveler reward')}</span><span>${money(q.reward)}</span></div><div class="row"><span>${t('Service fee')}</span><span>${money(q.fee)}</span></div>
+      <div class="row t"><span>${t('Total')}</span><span>${money(q.total)}</span></div>`;
+  }catch(e){ $('#qs').innerHTML=`<div class="note">${esc(trErr(e.message))}</div>`; }
+}
+function sendTrip(){ run(async()=>{ const r=await api('/orders/traveler','POST',{buyer_id:user.id,trip_id:REQ.trip.id,items:payloadItems()}); await payModal(r.id); }); }
+
+/* ---------- Orders (boarding-pass tickets) ---------- */
+async function orders(){
+  const all = await api(`/users/${user.id}/orders`), buyer = role==='buyer';
+  const Lst = all.filter(o => buyer ? o.buyer_id===user.id : o.provider_id===user.id);
+  show(`<h1>${t(buyer?'My orders':'Sales')}</h1><p class="sub">${t(buyer?'Follow each order, and find your delivery codes here.':"Ship paid orders, then enter the buyer's code at handover to get paid.")}</p>` +
+    (Lst.map(orderCard).join('') || `<div class="empty"><b>${t(buyer?'No orders yet':'No sales yet')}</b>${t(buyer?'Your purchases will show up here.':'Paid orders will show up here.')}<br><button class="btn" onclick="${buyer?"go('shop')":"go('sell')"}">${t(buyer?'Browse the shop':'Add a product')}</button></div>`));
+  flyPlanes();
+}
+function copyCode(c){ navigator.clipboard.writeText(c); toast(t('Code copied')); }
+function orderCard(o){
+  const buyer = o.buyer_id===user.id, step = {CREATED:0,FUNDED:1,SHIPPED:2,RELEASED:3}[o.state];
+  let acts = '', info = '', mid = '';
+  if(step!==undefined) mid = track(o.id, step);
+  else mid = `<div class="note">${t(o.state==='DISPUTED'?'This order is under review. We will decide within 48 hours.':o.state==='REFUNDED'?'This order was refunded to the buyer.':'This order was cancelled.')}</div>`;
+  if(buyer && o.state==='CREATED') acts = `<button class="btn sm" onclick="run(()=>payModal(${o.id}))">${t('Pay securely')}</button>`;
+  if(buyer && o.code) info = `<div class="code"><div><div class="small">${t('Your delivery code')}</div><b dir="ltr">${o.code}</b><div class="small">${t('Share it only when your order arrives.')}</div></div><button class="btn alt sm" onclick="copyCode('${o.code}')">${t('Copy')}</button></div>`;
+  if(!buyer && o.state==='FUNDED') acts = `<button class="btn sm" onclick="act(${o.id},'ship',{provider_id:${user.id}},${q(t('Marked as shipped'))})">${t('Mark as shipped')}</button>`;
+  if(!buyer && o.state==='SHIPPED') acts = `<input id="c${o.id}" placeholder="${esc(t("Buyer's 6-digit code"))}" maxlength="6" inputmode="numeric" dir="ltr"><button class="btn sm" onclick="act(${o.id},'confirm',{code:$('#c${o.id}').value},${q(t('Delivery confirmed. Your payout is released.'))})">${t('Confirm delivery')}</button>`;
+  if(buyer && o.state==='SHIPPED') acts = `<button class="btn alt sm" onclick="if(confirm(${q(t('Report a problem with this order?'))}))act(${o.id},'dispute',{},${q(t('Problem reported. We are reviewing it.'))})">${t('Report a problem')}</button>`;
+  if(buyer && o.state==='RELEASED' && !o.rated) acts = `<div class="small">${esc(t('Rate {n}',{n:o.provider_name}))}</div><div class="stars" dir="ltr">${[1,2,3,4,5].map(n=>`<button aria-label="${n}" onclick="act(${o.id},'rate',{stars:${n}},${q(t('Thanks for rating'))})">${ic('star')}</button>`).join('')}</div>`;
+  const who = buyer ? t('Seller {n}',{n:esc(o.provider_name)}) : t('Buyer {n}',{n:esc(o.buyer_name)});
+  const list = o.items && o.items.length ? `<details class="items"><summary>${o.items.length===1?t('1 item'):t('{n} items',{n:o.items.length})}</summary>${o.items.map(i=>`<div class="li"><div>${esc(i.name)}${i.qty>1?' ×'+i.qty:''}${i.url.toLowerCase().startsWith('http')?`<a href="${esc(i.url)}" target="_blank" rel="noopener noreferrer">${t('Open link')}</a>`:''}</div><div class="small" dir="ltr">${i.price} ${i.currency} → ${money(i.price_tnd)}</div></div>`).join('')}</details>` : '';
+  const pic = o.has_image ? `<img class="ph sm" src="/api/listings/${o.listing_id}/image" alt="">` : '';
+  return `<div class="ticket"><div class="head"><div class="lead">${pic}<div><h3>${esc(o.title)}</h3><div class="small">${t('Order #{n}',{n:o.id})} · ${t(o.kind==='LOCAL'?'Local':'From abroad')} · ${who}</div></div></div><span class="pill ${o.state}">${t(STATUS[o.state])}</span></div>${list}
+    ${mid}<div class="perf"></div>${info}
+    <div class="foot"><div><div class="small">${t(buyer?'Total paid':'You receive')}</div><div class="amount">${money(buyer?o.total:o.payout)}</div></div><div class="acts">${acts}</div></div></div>`;
+}
+function act(id, what, body, msg){ run(async()=>{ await api(`/orders/${id}/${what}`,'POST',body); toast(msg); render(); }); }
+
+/* ---------- Admin ---------- */
+async function admin(){
+  const Lst = await api('/admin/disputes');
+  show(`<h1>${t('Disputes')}</h1><p class="sub">${t('Decide who gets the money held in escrow.')}</p>` + (Lst.map(o=>`<div class="ticket"><div class="head"><div><h3>${esc(o.title)}</h3>
+    <div class="small">${esc(t('Buyer {b} · Provider {p}',{b:o.buyer_name,p:o.provider_name}))}</div></div><div class="amount">${money(o.total)}</div></div><div class="perf"></div>
+    <div class="acts"><button class="btn red sm" onclick="act(${o.id},'resolve',{in_favor_of:'buyer'},${q(t('Buyer refunded'))})">${t('Refund buyer')}</button>
+    <button class="btn sm" onclick="act(${o.id},'resolve',{in_favor_of:'provider'},${q(t('Provider paid'))})">${t('Pay provider')}</button></div></div>`).join('') || `<div class="empty"><b>${t('No open disputes')}</b>${t('Everything is running smoothly.')}</div>`));
+}
+
+applyLang();
+if(user) api('/me/'+user.id).then(u=>{user=u;localStorage.setItem('abroad_user',JSON.stringify(u));render();}).catch(()=>{user=null;render();}); else render();
+
+</script>
+</body>
+</html>
