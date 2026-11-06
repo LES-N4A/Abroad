@@ -1,0 +1,13 @@
+# Render.com "Blueprint": tells Render how to run Abroad online for free.
+services:
+  - type: web
+    name: abroad
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ABROAD_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.12.7

@@ -1,0 +1,6 @@
+abroad_v2.db
+abroad.db
+abroad_data.json
+__pycache__/
+*.pyc
+.venv/
